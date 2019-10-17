@@ -49,4 +49,31 @@ router.post('/signin', async (req, res) => {
     }
 });
 
+router.post('/signinwithbarcode', async (req, res) => {
+    const {barcode} = req.body;
+    try{
+        console.log(barcode);
+        if (!barcode) {
+            throw ({error: 'Must provide barcode'});
+        }
+        const result = await pool.query('SELECT * FROM devices WHERE barcode = $1 LIMIT 1', [barcode]);
+        user = result.rows[0];
+        if (!user) {
+            throw({error: 'Invalid barcode'});
+        }
+        // const isMatch = await bcrypt.compare(password, user.password,);
+        // if(!isMatch) {
+        //     throw ({error: 'Invalid password or email'});
+        // }
+        else {
+            const token = await jwt.sign({userId: user.id}, 'MY_SECRET_KEY');
+            res.send({
+                token,
+                userName: user.username});
+        } 
+    } catch (error) {
+    return res.status(402).send(error);
+    }
+});
+
 module.exports = router;

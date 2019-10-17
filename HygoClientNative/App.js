@@ -6,6 +6,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
 import TrackDetailsScreen from './src/screens/TrackDetailsScreen';
+import BarCodeScreen from './src/screens/BarCodeScreen';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -14,6 +15,7 @@ import Store from './src/store/configureStore';
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
+    BarCode: BarCodeScreen,
     SignUp: SignUpScreen,
     SignIn: SignInScreen
   }),
@@ -33,4 +35,4 @@ export default App = () => (
   <Provider store={Store}>
     <AppContainer />
   </Provider>  
-) 
+)
