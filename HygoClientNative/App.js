@@ -1,11 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AccountScreen from './src/screens/AccountScreen';
-import SignInScreen from './src/screens/SignInScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-import TrackCreateScreen from './src/screens/TrackCreateScreen';
-import TrackListScreen from './src/screens/TrackListScreen';
-import TrackDetailsScreen from './src/screens/TrackDetailsScreen';
+import DashboardScreen from './src/screens/DashboardScreen';
 import BarCodeScreen from './src/screens/BarCodeScreen';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -16,15 +12,9 @@ import Store from './src/store/configureStore';
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
     BarCode: BarCodeScreen,
-    SignUp: SignUpScreen,
-    SignIn: SignInScreen
   }),
   mainFlow: createBottomTabNavigator({
-    trackListFlow: createStackNavigator({
-      TrackList: TrackListScreen,
-      TrackDetails: TrackDetailsScreen
-    }),
-    TrackCreate: TrackCreateScreen,
+    Dashboard: DashboardScreen,
     Account: AccountScreen 
   })
 });
