@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text, Button} from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteToken } from '../store/actions/authActions'
 

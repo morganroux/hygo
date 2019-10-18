@@ -15,19 +15,22 @@ class BarCodeScreen extends React.Component {
     scanned: false,
   };
 
-  async componentDidMount() {
-    this.getPermissionsAsync();
+  async componentWillMount() {
 
-    // console.log('before');
-    // const storedToken = await AsyncStorage.getItem('token');
+    const storedToken = await AsyncStorage.getItem('token');
     
-    // const {errorMessage, userName} = await validateToken(storedToken);
-    // if(!errorMessage) {
-    //   this.props.updateToken(storedToken);
-    //   await alert(`Hello ${userName}`);
-    //   this.props.navigation.navigate('mainFlow');
-    // }
-    // console.log('after');
+    const {errorMessage, userName} = await validateToken(storedToken);
+    if(!errorMessage) {
+      this.setState({connected: true})
+      this.props.updateToken(storedToken);
+      alert(`Hello ${userName}`);
+      this.props.navigation.navigate('mainFlow');
+    }
+    else {
+      this.getPermissionsAsync();
+    }
+  }
+  async componentDidMount() {
   }
 
   getPermissionsAsync = async () => {
@@ -63,22 +66,18 @@ class BarCodeScreen extends React.Component {
   }
   
   handleBarCodeScanned = async ({ type, data }) => {
-    console.log('here')
+    this.setState({ scanned: true });
     const {token, errorMessage, userName} = await signInWithBarCode(data);
-  //  this.setState( () => ({errorMessage}));
     if(errorMessage || !token) {
       alert('erreur');
       console.log(data);
     }
     else {
-      
-      // await alert(`Bar code with type ${type} and data ${data} has been scanned! - Hello ${userName}`);
       alert(`Hello ${userName}`);
       this.props.updateToken(token);
-      //await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('token', token);
       this.props.navigation.navigate('mainFlow');
     }
-    this.setState({ scanned: true });
   };
 
 }
