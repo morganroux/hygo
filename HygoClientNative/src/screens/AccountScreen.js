@@ -1,15 +1,34 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Button} from 'react-native';
 import { connect } from 'react-redux';
+import { deleteToken } from '../store/actions/authActions'
 
-const AccountScreen = () =>  (
-    <Text style = {{fontSize: 48}}>Account Screen</Text>
-);
+class AccountScreen extends React.Component {
+    constructor(props) {
+        super(props);
+    };
+    onLogOut = () => {
+        this.props.deleteToken();
+        this.props.navigation.navigate('BarCode');
+    }
+    render() {
+        return (
+            <View>
+                <Text style = {{fontSize: 48}}>Account Screen</Text>
+                <Button 
+                    title='Logout'
+                    onPress={this.onLogOut}
+                />
+            </View>
+        )
+    }
+}
 
 const mapStateToProps = ({token}) => ({
     token
   });
   const mapDispatchToProps = (dispatch, props) => ({
-  })
+    deleteToken: () => dispatch(deleteToken())
+  });
   
   export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);

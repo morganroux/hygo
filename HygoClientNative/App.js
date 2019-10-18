@@ -25,4 +25,4 @@ export default App = () => (
   <Provider store={Store}>
     <AppContainer />
   </Provider>  
-)
+) 

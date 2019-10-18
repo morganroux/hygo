@@ -61,11 +61,16 @@ class BarCodeScreen extends React.Component {
     }
     else {
       alert(`Bar code with type ${type} and data ${data} has been scanned! - Hello ${userName}`);
-      console.log(token);
       this.props.updateToken(token);
       this.props.navigation.navigate('mainFlow');
     }
   };
+}
+
+BarCodeScreen.navigationOptions = () => {
+  return {
+      header: null
+  }
 }
 
 const mapStateToProps = ({token}) => ({

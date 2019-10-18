@@ -12,10 +12,18 @@ export default authReducer =  (state = initialState, action) => {
             token: (state.token == 1 ? 0 : 1)
         }
         return nextState || state;
+    
     case 'UPDATE_TOKEN':
         nextState = {
             ...state,
                 token: action.token,
+            }
+        return nextState || state;
+        
+    case 'DELETE_TOKEN' :
+        nextState = {
+            ...state,
+                token: '',
             }
         return nextState || state;
     default:

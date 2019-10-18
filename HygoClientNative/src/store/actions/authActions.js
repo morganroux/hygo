@@ -10,3 +10,9 @@ export const updateToken = (token) => {
         token
     });
 }
+
+export const deleteToken = () => {
+    return ({
+        type: 'DELETE_TOKEN'
+    });
+}
