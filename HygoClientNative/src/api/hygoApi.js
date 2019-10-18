@@ -41,3 +41,18 @@ export const signInWithBarCode = async (barcode) => {
         });
     }
 }
+
+export const validateToken = async (token) => {
+    if (!token) {
+        return ({
+            errorMessage: 'No Token',
+            userName: ''
+        });
+    }
+    else {
+        return ({
+            errorMessage: '',
+            userName: ''
+        });
+    }
+}

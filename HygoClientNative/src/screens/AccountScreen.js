@@ -7,7 +7,8 @@ class AccountScreen extends React.Component {
     constructor(props) {
         super(props);
     };
-    onLogOut = () => {
+    onLogOut = async () => {
+        await AsyncStorage.removeItem('token');
         this.props.deleteToken();
         this.props.navigation.navigate('BarCode');
     }
