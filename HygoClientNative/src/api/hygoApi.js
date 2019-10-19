@@ -1,8 +1,8 @@
 import axios from 'axios';
-``
+
 export const trackerApi = axios.create(
 {
- baseURL: 'http://c2168776.ngrok.io'
+ baseURL: 'http://72ac324f.ngrok.io'
 });
 
 export const signUp = async (email, password) => {
@@ -34,7 +34,6 @@ export const signInWithBarCode = async (barcode) => {
         });
     } catch(err)
     {
-        console.log(err)
         return ({
             token: '',
             errorMessage: 'Error while signing up'
@@ -42,7 +41,7 @@ export const signInWithBarCode = async (barcode) => {
     }
 }
 
-export const validateToken = async (token) => {
+export const checkToken = async (token) => {
     if (!token) {
         return ({
             errorMessage: 'No Token',
@@ -50,9 +49,18 @@ export const validateToken = async (token) => {
         });
     }
     else {
-        return ({
-            errorMessage: '',
-            userName: ''
-        });
+        try{
+            const response = await trackerApi.post('/checkToken', {token});
+            return ({
+                errorMessage: '',
+                userName: response.data.userName
+            });
+        }
+        catch(err) {
+            return ({
+                errorMessage: 'Invalide stored token',
+                userName: ''
+            });
+        }
     }
 }

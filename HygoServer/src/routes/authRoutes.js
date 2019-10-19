@@ -31,17 +31,17 @@ router.post('/signin', async (req, res) => {
             throw ({error: 'Must provide email and password'});
         }
         const result = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [email]);
-        user = result.rows[0];
-        if (!user) {
+        const device = result.rows[0];
+        if (!device) {
             throw({error: 'Invalid password or email'});
         }
 
-        const isMatch = await bcrypt.compare(password, user.password,);
+        const isMatch = await bcrypt.compare(password, device.password,);
         if(!isMatch) {
             throw ({error: 'Invalid password or email'});
         }
         else {
-            const token = await jwt.sign({userId: user.id}, 'MY_SECRET_KEY');
+            const token = await jwt.sign({userId: device.id}, 'MY_SECRET_KEY');
             res.send({token});
         } 
     } catch (error) {
@@ -57,23 +57,39 @@ router.post('/signinwithbarcode', async (req, res) => {
             throw ({error: 'Must provide barcode'});
         }
         const result = await pool.query('SELECT * FROM devices WHERE barcode = $1 LIMIT 1', [barcode]);
-        user = result.rows[0];
-        if (!user) {
+        const device = result.rows[0];
+        if (!device) {
             throw({error: 'Invalid barcode'});
         }
-        // const isMatch = await bcrypt.compare(password, user.password,);
+        // const isMatch = await bcrypt.compare(password, device.password,);
         // if(!isMatch) {
         //     throw ({error: 'Invalid password or email'});
         // }
         else {
-            const token = await jwt.sign({userId: user.id}, 'MY_SECRET_KEY');
-            res.send({
+            const token = await jwt.sign({deviceId: device.id}, 'MY_SECRET_KEY');
+            return res.send({
                 token,
-                userName: user.username});
+                userName: device.username});
         } 
     } catch (error) {
     return res.status(402).send(error);
     }
 });
 
+
+router.post('/checkToken', async (req, res) => {
+    try {
+        const {deviceId} = await jwt.verify(req.body.token, 'MY_SECRET_KEY');
+        const result = await pool.query('SELECT * FROM devices WHERE id = $1 LIMIT 1', [deviceId]);
+        const device = result.rows[0];
+        if (!device) {
+            throw({error: 'Invalid token'});
+        } 
+        else {
+            return res.send({userName: device.username});
+        }
+    } catch(error) {
+        return res.status(402).send(error);
+    }
+});
 module.exports = router;

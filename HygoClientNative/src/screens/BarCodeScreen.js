@@ -5,8 +5,8 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { connect } from 'react-redux';
-import {updateToken} from '../store/actions/authActions';
-import {signInWithBarCode, validateToken} from '../api/hygoApi';
+import {updateToken, updateUserName} from '../store/actions/authActions';
+import {signInWithBarCode, checkToken} from '../api/hygoApi';
 
 
 class BarCodeScreen extends React.Component {
@@ -18,11 +18,11 @@ class BarCodeScreen extends React.Component {
   async componentWillMount() {
 
     const storedToken = await AsyncStorage.getItem('token');
-    
-    const {errorMessage, userName} = await validateToken(storedToken);
+    const {errorMessage, userName} = await checkToken(storedToken);
     if(!errorMessage) {
       this.setState({connected: true})
       this.props.updateToken(storedToken);
+      this.props.updateUserName(userName);
       alert(`Hello ${userName}`);
       this.props.navigation.navigate('mainFlow');
     }
@@ -70,7 +70,6 @@ class BarCodeScreen extends React.Component {
     const {token, errorMessage, userName} = await signInWithBarCode(data);
     if(errorMessage || !token) {
       alert('erreur');
-      console.log(data);
     }
     else {
       alert(`Hello ${userName}`);
@@ -92,7 +91,9 @@ const mapStateToProps = ({token}) => ({
   token
 });
 const mapDispatchToProps = (dispatch, props) => ({
-  updateToken: (token) => dispatch(updateToken(token))
+  updateToken: (token) => dispatch(updateToken(token)),
+  updateUserName: (userName) => dispatch(updateUserName(userName)),
+  checkToken: (token) => dispatch(checkToken(token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BarCodeScreen);

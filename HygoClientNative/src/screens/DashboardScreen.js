@@ -8,10 +8,11 @@ const DashboardScreen = ( {navigation}) =>  (
     </React.Fragment>
 );
 
-const mapStateToProps = ({token}) => ({
-    token
-  });
-  const mapDispatchToProps = (dispatch, props) => ({
-  })
+const mapStateToProps = ({token, userName}) => ({
+    token,
+    userName
+});
+const mapDispatchToProps = (dispatch, props) => ({
+})
   
-  export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);

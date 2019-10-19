@@ -6,12 +6,6 @@ const initialState = {
 export default authReducer =  (state = initialState, action) => {
     let nextState
     switch (action.type) {
-    case 'TOGGLE_TOKEN':
-        nextState = {
-            ...state,
-            token: (state.token == 1 ? 0 : 1)
-        }
-        return nextState || state;
     
     case 'UPDATE_TOKEN':
         nextState = {
@@ -19,7 +13,14 @@ export default authReducer =  (state = initialState, action) => {
                 token: action.token,
             }
         return nextState || state;
-        
+
+    case 'UPDATE_USERNAME':
+    nextState = {
+        ...state,
+            userName: action.userName,
+        }
+    return nextState || state;
+
     case 'DELETE_TOKEN' :
         nextState = {
             ...state,
