@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { AsyncStorage } from 'react-native';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import Constants from 'expo-constants';
+import { View, AsyncStorage } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import { StyleSheet } from 'react-native';
+import { Text, Button} from 'react-native-elements';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { connect } from 'react-redux';
@@ -30,8 +31,6 @@ class BarCodeScreen extends React.Component {
       this.getPermissionsAsync();
     }
   }
-  async componentDidMount() {
-  }
 
   getPermissionsAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -57,7 +56,7 @@ class BarCodeScreen extends React.Component {
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
-
+        <Text h1 style={StyleSheet.absoluteFillObject}> Test</Text>
         {scanned && (
           <Button title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
         )}

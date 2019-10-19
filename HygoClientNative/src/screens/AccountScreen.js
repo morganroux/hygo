@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, Button} from 'react-native';
+import { View } from 'react-native'
+import { Text, Button} from 'react-native-elements';
+import { SafeAreaView } from 'react-navigation';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteToken } from '../store/actions/authActions'
@@ -15,13 +17,13 @@ class AccountScreen extends React.Component {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView forceInset = {{top: 'always'}}>
                 <Text style = {{fontSize: 48}}>Account Screen</Text>
                 <Button 
                     title='Logout'
                     onPress={this.onLogOut}
                 />
-            </View>
+            </SafeAreaView>
         )
     }
 }
