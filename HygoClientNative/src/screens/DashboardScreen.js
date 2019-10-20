@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Button} from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
-import { getValue } from '../api/hygoApi';
+import { getLastValue } from '../api/hygoApi';
 import Sensor from '../components/Sensor';
 
 class DashboardScreen extends React.Component {
@@ -14,13 +14,18 @@ class DashboardScreen extends React.Component {
         }
     }
 
-    async loop() {
-        const {value} = await getValue(this.props.token, 'temp')
-        if (value) {
-            this.setState({value});
-        }
-        if(this.state.loop) {
-            setTimeout(() => this.loop(),3000);
+    loop = async () => {
+        try {
+            const {value} = await getLastValue(this.props.token, 'temp')
+            if (value) {
+                this.setState({value});
+            }
+            if(this.state.loop) {
+                setTimeout(() => this.loop(),3000);
+            }
+        } catch(err)
+        {
+            return;
         }
     }
 

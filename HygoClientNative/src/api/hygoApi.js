@@ -65,10 +65,10 @@ export const checkToken = async (token) => {
     }
 }
 
-export const getValue = async(token, valueType) => {
+export const getLastValue = async(token, valueType) => {
     if(token) {
         try {
-            const response  = await trackerApi.post('/getValue', {token, valueType});
+            const response  = await trackerApi.post('/getLastValue', {token, valueType});
             const {value} = response.data;
             return ({
                 value
