@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { StyleSheet } from 'react-native';
 import { Text, Button} from 'react-native-elements';
@@ -51,15 +51,37 @@ class BarCodeScreen extends React.Component {
           flex: 1,
           flexDirection: 'column',
           justifyContent: 'flex-end',
+          alignItems: 'center'
         }}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
-        <Text h1 style={StyleSheet.absoluteFillObject}> Test</Text>
+        <View style= {{
+          height:Dimensions.get("window").height,
+          width:Dimensions.get("window").width,
+          borderColor: 'rgba(0, 0, 0, 0.5)',
+          borderLeftWidth: Dimensions.get("window").width / 15,
+          borderRightWidth: Dimensions.get("window").width / 15,
+          borderTopWidth: Dimensions.get("window").width / 5,
+          borderBottomWidth: Dimensions.get("window").width / 5,
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          alignItems: 'center'
+          }}
+        >
         {scanned && (
-          <Button title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
+          <Button 
+            title='Tap to Scan Again'
+            onPress={() => this.setState({ scanned: false })} 
+            buttonStyle= {{
+              backgroundColor:'#8EE915'
+            }}
+          />
         )}
+        </View>
+
       </View>
     );
   }
