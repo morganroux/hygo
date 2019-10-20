@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const trackerApi = axios.create(
 {
- baseURL: 'http://0a70fe49.ngrok.io'
+ baseURL: 'http://e32961a8.ngrok.io'
 });
 
 export const signUp = async (email, password) => {

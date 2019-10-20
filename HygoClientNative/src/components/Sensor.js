@@ -1,57 +1,64 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Text, Button} from 'react-native-elements';
-import ProgressBar from 'react-native-progress/Bar';
-import { getValue } from '../api/hygoApi';
-import { connect } from 'react-redux';
+import { View, StyleSheet, Animated } from 'react-native';
+import { Text } from 'react-native-elements';
 
-class Sensor extends React.Component {
-    
+export default class Sensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value:0.1
-        }
-    }
-    componentDidMount() {
-        // this.timer = setInterval( async () => {
-        //     const {value} = await getValue(this.props.token, this.props.valueType)
-        //     console.log(this.state.value)
-        //     this.setState({value});
-        // }, 5000)
+            width: new Animated.Value(0)
+        };
     }
 
-    componentWillUnmount() {
-        // clearInterval(this.timer);
+    componentDidMount() {
+        Animated.timing(
+            this.state.width,
+            {
+              toValue: this.props.value,
+            },
+          ).start();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.value !== this.props.value) {
+            Animated.timing(
+                this.state.width,
+                {
+                  toValue: this.props.value,
+                },
+              ).start();
+        } 
     }
 
     render() {
         return (
-            <View>
-                <Text h5>{this.props.name + ' - ' +this.state.value}</Text>
-                <ProgressBar
-                progress={this.state.value}
-                color={this.props.color || 'blue'}
-                size={this.props.size || 50}
-                />
-                <Button 
-                    title="test"
-                    onPress= { async () => {
-                        const {value} = await getValue(this.props.token, this.props.valueType)
-                        console.log({value})
-                        this.setState({value});
-                        console.log(this.state.value)
-                    }}
-                />
+        <View>
+            <Text h5>{this.props.name + ' - ' + this.props.value.toFixed(2)}</Text>
+            <View style={styles.progressBar}>
+                <Animated.View style={
+                    [StyleSheet.absoluteFill], 
+                    {
+                        backgroundColor: this.props.color || "black", 
+                        width: this.state.width.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0%', '100%']
+                        })
+                    }
+                }/>
             </View>
+        </View>
         );
     }
 }
 
-const mapStateToProps = ({token}) => ({
-    token
+const styles = StyleSheet.create({
+    progressBar: {
+        flexDirection: 'row',
+        height: 20,
+        width: '100%',
+        backgroundColor: 'white',
+        borderColor: 'grey',
+        borderWidth: 1,
+        borderRadius: 5
+    }
 });
-const mapDispatchToProps = (dispatch, props) => ({
-})
-  
-export default connect(mapStateToProps, mapDispatchToProps)(Sensor);
