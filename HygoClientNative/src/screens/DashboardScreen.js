@@ -4,21 +4,24 @@ import { SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
 import { getLastValue } from '../api/hygoApi';
 import Sensor from '../components/Sensor';
+import getLimitedArray from '../utils/limitedArray';
 
 class DashboardScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: 0,
+            lastValue: 0,
             loop: true
         }
     }
-
     loop = async () => {
         try {
             const {value} = await getLastValue(this.props.token, 'temp')
             if (value) {
-                this.setState({value});
+                this.setState({
+                    ...this.state,
+                    lastValue: value
+                });
             }
             if(this.state.loop) {
                 setTimeout(() => this.loop(),3000);
@@ -41,18 +44,18 @@ class DashboardScreen extends React.Component {
         return (
             <SafeAreaView forceInset = {{top: 'always'}}>
                 <Text h1>Dashboard</Text>
-                <Text h3 style={{backgroundColor: this.state.value > 0.5 ? '#EBF6EC' : '#FF99A6'}}>
-                    {this.state.value > 0.5 ? 'Bonnes' : 'Mauvaises'} conditions
+                <Text h3 style={{backgroundColor: this.state.lastValue > 0.5 ? '#EBF6EC' : '#FF99A6'}}>
+                    {this.state.lastValue > 0.5 ? 'Bonnes' : 'Mauvaises'} conditions
                 </Text>
                 <Sensor 
                     name="Température"
                     color="green"
-                    value={this.state.value}
+                    value={this.state.lastValue}
                 />
                 <Sensor 
                     name="Hygro"
                     color="blue"
-                    value={this.state.value}
+                    value={this.state.lastValue}
                 />
             </SafeAreaView>
         );

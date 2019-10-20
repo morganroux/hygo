@@ -66,7 +66,6 @@ router.post('/getLastValue', async (req, res) => {
             return res.send(value);
         }
     } catch (error) {
-        console.log(error);
         return res.status(402).send(error);
     }
 })
