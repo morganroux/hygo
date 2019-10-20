@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import { View, StyleSheet, Dimensions, Animated } from 'react-native';
 import { Text } from 'react-native-elements';
 
 export default class Sensor extends React.Component {
@@ -32,7 +32,8 @@ export default class Sensor extends React.Component {
 
     render() {
         return (
-        <View>
+        <View style={{width:Dimensions.get("window").width - 20}}
+            >
             <Text h5>{this.props.name + ' - ' + this.props.value.toFixed(2)}</Text>
             <View style={styles.progressBar}>
                 <Animated.View style={

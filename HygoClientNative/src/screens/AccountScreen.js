@@ -17,7 +17,11 @@ class AccountScreen extends React.Component {
     }
     render() {
         return (
-            <SafeAreaView forceInset = {{top: 'always'}}>
+            <SafeAreaView 
+                forceInset = {{top: 'always'}}
+                justifyContent= 'center'
+                alignItems= 'center'
+            >
                 <Text style = {{fontSize: 48}}>Account Screen</Text>
                 <Button 
                     title='Logout'
