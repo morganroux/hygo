@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import AccountScreen from './src/screens/AccountScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import BarCodeScreen from './src/screens/BarCodeScreen';
@@ -25,4 +24,4 @@ export default App = () => (
   <Provider store={Store}>
     <AppContainer />
   </Provider>  
-) 
+)  

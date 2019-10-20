@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const trackerApi = axios.create(
 {
- baseURL: 'http://72ac324f.ngrok.io'
+ baseURL: 'http://0a70fe49.ngrok.io'
 });
 
 export const signUp = async (email, password) => {
@@ -60,6 +60,23 @@ export const checkToken = async (token) => {
             return ({
                 errorMessage: 'Invalide stored token',
                 userName: ''
+            });
+        }
+    }
+}
+
+export const getValue = async(token, valueType) => {
+    if(token) {
+        try {
+            const response  = await trackerApi.post('/getValue', {token, valueType});
+            const {value} = response.data;
+            return ({
+                value
+            });
+
+        } catch(error) {
+            return ({
+                value: ''
             });
         }
     }
